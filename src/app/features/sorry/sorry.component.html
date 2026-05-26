@@ -1,0 +1,88 @@
+<section class="feature-hero fade-in-up">
+  <div class="feature-container">
+    <div class="feature-icon">🙏</div>
+    <h1 class="text-gradient feature-title">
+      {{ isViewMode ? (formData.apologyTo ? 'An Apology for ' + formData.apologyTo : 'You received an apology.') : 'The Sorry Card' }}
+    </h1>
+    <p class="feature-desc">{{ isViewMode ? (formData.senderName ? formData.senderName + ' is deeply sorry and asking for your forgiveness.' : 'Someone is deeply sorry and asking for your forgiveness.') : 'Mend fences the right way with a personalized, sweet interactive apology link.' }}</p>
+
+    <!-- Creator Form -->
+    <div class="feature-form" *ngIf="!isViewMode">
+      <div class="form-group">
+        <label for="apologyTo">Who are you apologizing to?</label>
+        <input type="text" id="apologyTo" class="form-control" placeholder="E.g. Jamie" [(ngModel)]="formData.apologyTo">
+      </div>
+      <div class="form-group">
+        <label for="senderName">Your Name (Sender)</label>
+        <input type="text" id="senderName" class="form-control" placeholder="E.g. Taylor" [(ngModel)]="formData.senderName">
+      </div>
+      <div class="form-group">
+        <label for="reason">What happened?</label>
+        <input type="text" id="reason" class="form-control" placeholder="I forgot our dinner date" [(ngModel)]="formData.reason">
+      </div>
+      <div class="form-group">
+        <label for="forgiveness">Your heartfelt apology</label>
+        <textarea id="forgiveness" class="form-control" placeholder="I'm truly sorry, it won't happen again. Can you forgive me?" [(ngModel)]="formData.forgiveness"></textarea>
+      </div>
+      <div class="action-buttons">
+        <button class="btn btn-outline" (click)="togglePreview()">Preview</button>
+        <button class="btn btn-primary" (click)="generateLink()" [disabled]="isGenerating">
+          <span class="spinner" *ngIf="isGenerating"></span>
+          {{ isGenerating ? 'Crafting Magic...' : 'Create Apology Card ✨' }}
+        </button>
+      </div>
+
+      <div class="result-box" *ngIf="generatedLink">
+        <h4>🎉 Your Magic Link is ready!</h4>
+        <div class="link-container">
+          <span class="link-text">{{ generatedLink }}</span>
+          <button class="copy-btn" [class.copied]="copied" (click)="copyLink()">
+            {{ copied ? 'Copied ✓' : 'Copy' }}
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Receiver View -->
+    <div class="feature-form text-center" *ngIf="isViewMode">
+      <div *ngIf="!forgiven">
+        <h3 class="feature-subtitle">"{{ formData.reason || 'I messed up' }}"</h3>
+        <p style="color: var(--text-light); text-align: left; font-style: italic; background: rgba(0,0,0,0.05); padding: 1.5rem; border-radius: 12px; margin-bottom: 2rem; white-space: pre-wrap;">
+          "{{ formData.forgiveness || 'I am truly sorry, it won\'t happen again. Can you forgive me?' }}"
+        </p>
+        <div class="action-buttons">
+          <button class="btn btn-primary" (click)="forgive()">I Forgive You 💙</button>
+        </div>
+      </div>
+      <div *ngIf="forgiven" class="result-box" style="margin-top: 1rem; background: rgba(56,189,248,0.1); border-color: #38bdf8;">
+        <img src="https://media.giphy.com/media/l41m4ODfe8PwHlsUU/giphy.gif" alt="Cute Sorry Cat" style="width: 100%; max-width: 300px; border-radius: 12px; margin-bottom: 1rem;">
+        <h4 style="font-size: clamp(1.2rem, 4vw, 1.5rem); margin-bottom: 1rem;">Forgiven! ✨</h4>
+        <p style="color: var(--text-light); font-size: 1.1rem;">{{ formData.senderName ? formData.senderName + ' has been notified that everything is okay.' : 'They have been notified that everything is okay.' }}</p>
+      </div>
+      <div style="margin-top: 2rem; display: flex; flex-direction: column; align-items: center; gap: 1rem;">
+        
+        <div class="action-buttons" *ngIf="isPreviewMode" style="max-width: 400px; margin-top: 0;">
+          <button class="btn btn-outline" (click)="togglePreview()">Back to Editing</button>
+          <button class="btn btn-primary" (click)="generateLink()" [disabled]="isGenerating">
+            <span class="spinner" *ngIf="isGenerating"></span>
+            {{ isGenerating ? 'Crafting Magic...' : 'Create Apology Card ✨' }}
+          </button>
+        </div>
+
+        <div class="result-box" *ngIf="generatedLink && isPreviewMode" style="width: 100%; max-width: 400px; margin-top: 0;">
+          <h4>🎉 Your Magic Link is ready!</h4>
+          <div class="link-container">
+            <span class="link-text">{{ generatedLink }}</span>
+            <button class="copy-btn" [class.copied]="copied" (click)="copyLink()">
+              {{ copied ? 'Copied ✓' : 'Copy' }}
+            </button>
+          </div>
+        </div>
+
+        <a *ngIf="!isPreviewMode" routerLink="/" style="color: var(--primary-light); font-size: 0.9rem; text-decoration: underline; display: flex; align-items: center;">Create your own HeartCraft</a>
+      </div>
+    </div>
+
+  </div>
+  <div class="hero-bg-glow" style="background: radial-gradient(circle, rgba(56,189,248,0.15) 0%, rgba(2,6,23,0) 70%);"></div>
+</section>

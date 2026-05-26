@@ -1,0 +1,127 @@
+<header class="hero">
+  <div class="container hero-content fade-in-up">
+    <h1>Craft unforgettable<br><span class="text-gradient">interactive surprises.</span></h1>
+    <p class="hero-subtitle">Go beyond standard greeting cards. Turn special moments and heartfelt messages into gamified digital experiences they can open right on their phone.</p>
+    <div class="hero-actions">
+      <button class="btn btn-primary" (click)="scrollTo('experiences')">Explore Experiences</button>
+    </div>
+  </div>
+  
+  <div class="hero-bg-glow"></div>
+  <div class="hero-bg-glow-2"></div>
+</header>
+
+<section id="trending" class="section">
+  <div class="container fade-in-up delay-1">
+    <div class="section-header">
+      <h2>Trending Surprises</h2>
+      <div class="badge">Hot</div>
+    </div>
+    
+    <div class="trending-grid">
+      <div class="trending-card maa-card">
+        <div class="card-bg"></div>
+        <div class="card-content">
+          <h3>A Gift For Maa</h3>
+          <p>Tap to begin the surprise</p>
+          <a routerLink="/maa" class="btn btn-outline card-btn">Create now ✨</a>
+        </div>
+      </div>
+      
+      <div class="trending-card anniversary-card">
+        <div class="card-bg"></div>
+        <div class="card-content">
+          <h3>Happy Anniversary,<br>my love</h3>
+          <p>Ready for a little surprise?</p>
+          <a routerLink="/anniversary" class="btn btn-outline card-btn">Create now ✨</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="experiences" class="section bg-alt">
+  <div class="container fade-in-up delay-2">
+    <h2 class="text-center section-title">Something for <span class="text-gradient">every moment</span></h2>
+    
+    <div class="bento-grid">
+      <div class="bento-item highlight-item proposal">
+        <div class="bento-content">
+          <div class="icon-wrapper">💍</div>
+          <h3>The Perfect Proposal</h3>
+          <p>Ask Any Question, and we promise that they won't be able to say No. The "No" button playfully dodges their taps until they say "Yes!", ending in a customized celebration. It's The "Unrejectable" Love Card.</p>
+          <a routerLink="/proposal" class="btn btn-primary small-btn mt-auto">Create Now</a>
+        </div>
+      </div>
+      
+      <!-- Surprise Photo Puzzle disabled for now
+      <div class="bento-item puzzle">
+        <div class="bento-content">
+          <div class="icon-wrapper">🧩</div>
+          <h3>Surprise Photo Puzzle</h3>
+          <p>Hide your special date invite or message behind a scrambled puzzle made from your personalized uploaded Photo.</p>
+          <a routerLink="/puzzle" class="btn btn-outline small-btn mt-auto">Create Now</a>
+        </div>
+      </div>
+      -->
+      
+      <div class="bento-item birthday">
+        <div class="bento-content">
+          <div class="icon-wrapper">🎂</div>
+          <h3>Virtual Birthday Bash</h3>
+          <p>Send a full birthday celebration to their phone. Let them pop virtual balloons, blow out digital candles, and cut a custom cake.</p>
+          <a routerLink="/birthday" class="btn btn-outline small-btn mt-auto">Create Now</a>
+        </div>
+      </div>
+      
+      <div class="bento-item sorry">
+        <div class="bento-content">
+          <div class="icon-wrapper">🙏</div>
+          <h3>Sorry Card</h3>
+          <p>Say sorry the right way. Send a heartfelt interactive apology as a link — no awkward face-to-face needed.</p>
+          <a routerLink="/sorry" class="btn btn-outline small-btn mt-auto">Create Now</a>
+        </div>
+      </div>
+      
+      <!-- UPI QR planned for future
+      <div class="bento-item qr">
+        <div class="bento-content">
+          <div class="icon-wrapper">📸</div>
+          <h3>UPI QR Code with Photo</h3>
+          <p>Upload your photo, enter your UPI ID, get a personalized scannable QR code instantly.</p>
+          <a routerLink="/qr" class="btn btn-outline small-btn mt-auto">Create Now</a>
+        </div>
+      </div>
+      -->
+    </div>
+  </div>
+</section>
+
+<section id="how-it-works" class="section">
+  <div class="container fade-in-up delay-3">
+    <h2 class="text-center section-title">How it <span class="text-gradient">works</span></h2>
+    
+    <div class="steps-container">
+      <div class="step">
+        <div class="step-number">1</div>
+        <div class="step-icon">🎁</div>
+        <h3>Pick a gift</h3>
+        <p>Choose from our vast collection of interactive experiences.</p>
+      </div>
+      <div class="step-connector"></div>
+      <div class="step">
+        <div class="step-number">2</div>
+        <div class="step-icon">❤️</div>
+        <h3>Add your love</h3>
+        <p>Personalize it with your photos, messages, and memories.</p>
+      </div>
+      <div class="step-connector"></div>
+      <div class="step">
+        <div class="step-number">3</div>
+        <div class="step-icon">✨</div>
+        <h3>Send it with love</h3>
+        <p>Share the magic link and track their reaction.</p>
+      </div>
+    </div>
+  </div>
+</section>

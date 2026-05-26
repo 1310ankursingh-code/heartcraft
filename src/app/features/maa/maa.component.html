@@ -1,0 +1,119 @@
+<section class="maa-hero">
+  <div style="width: 100%; max-width: 600px; padding: 0 1.5rem;">
+    
+    <!-- Receiver View OR Step 3 (Preview) -->
+    <div *ngIf="isViewMode || step === 3">
+      <div class="sub-label">🌸 {{ isViewMode ? 'A LETTER FOR YOU' : 'ALMOST THERE' }}</div>
+      <h1 class="main-title" *ngIf="!isViewMode">This is what <span>she'll see</span></h1>
+
+      <div class="phone-mockup">
+        <div class="phone-notch"></div>
+        <div class="phone-content">
+          <div class="phone-header">A letter for you</div>
+          <div class="phone-title">For {{ formData.callHer }}</div>
+          
+          <div class="timeline-p" *ngFor="let p of getParagraphs(); let last = last" [ngStyle]="{'padding-bottom': last ? '0' : '1.5rem'}">
+            {{ p }}
+          </div>
+        </div>
+      </div>
+      
+      <div style="margin-top: 2rem; display: flex; flex-direction: column; gap: 1rem;" *ngIf="!isViewMode">
+        <button class="big-continue-btn" (click)="generateLink()" [disabled]="isGenerating" style="margin-top: 0;">
+          {{ isGenerating ? 'Crafting Magic...' : 'Generate Magic Link ✨' }}
+        </button>
+        <button class="btn btn-outline" style="border: none; color: #777; background: transparent;" (click)="prevStep()">← Back to edit</button>
+
+        <div class="result-box" *ngIf="generatedLink" style="width: 100%; background: white; border-radius: 12px; padding: 1.5rem; text-align: center; border: 1px solid #f0d5dd;">
+          <h4 style="color: #4a4a4a; margin-bottom: 1rem;">🎉 Your Magic Link is ready!</h4>
+          <div style="display: flex; gap: 0.5rem; justify-content: center; align-items: center; background: #fdfaf6; padding: 0.8rem; border-radius: 8px;">
+            <span style="font-family: monospace; color: #d67a8f; word-break: break-all;">{{ generatedLink }}</span>
+            <button class="btn" style="background: #fae8ed; color: #d67a8f; padding: 0.4rem 0.8rem; border-radius: 6px; font-size: 0.8rem;" (click)="copyLink()">{{ copied ? 'Copied ✓' : 'Copy' }}</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Creator Form Step 1 -->
+    <div *ngIf="!isViewMode && step === 1">
+      <div class="sub-label">🌸 THIS MOTHER'S DAY</div>
+      <h1 class="main-title">Make her a <span>card</span> she'll never forget</h1>
+
+      <div class="maa-form-box">
+        <label class="input-label">WHAT DO YOU CALL HER?</label>
+        <div class="pill-group">
+          <button class="pill" [class.active]="formData.callHer === 'Maa'" (click)="selectCallHer('Maa')">Maa</button>
+          <button class="pill" [class.active]="formData.callHer === 'Amma'" (click)="selectCallHer('Amma')">Amma</button>
+          <button class="pill" [class.active]="formData.callHer === 'Ammi'" (click)="selectCallHer('Ammi')">Ammi</button>
+          <button class="pill" [class.active]="formData.callHer === 'Mummy'" (click)="selectCallHer('Mummy')">Mummy</button>
+          <button class="pill" [class.active]="formData.callHer === 'Mom'" (click)="selectCallHer('Mom')">Mom</button>
+          <button class="pill" [class.active]="formData.callHer === 'Other...'" (click)="selectCallHer('Other...')">Other...</button>
+        </div>
+
+        <label class="input-label">WHAT DOES SHE CALL YOU?</label>
+        <input type="text" class="maa-input" placeholder="Your name, or what she calls you..." [(ngModel)]="formData.callsYou">
+
+        <label class="input-label">ARE YOU HER SON OR DAUGHTER?</label>
+        <div class="gender-grid">
+           <div class="gender-card" [class.active]="formData.gender === 'Her Son'" (click)="selectGender('Her Son')">👦 Her Son</div>
+           <div class="gender-card" [class.active]="formData.gender === 'Her Daughter'" (click)="selectGender('Her Daughter')">👧 Her Daughter</div>
+        </div>
+      </div>
+      
+      <button class="big-continue-btn" (click)="nextStep()">Continue →</button>
+    </div>
+
+    <!-- Creator Form Step 2 -->
+    <div *ngIf="!isViewMode && step === 2">
+      <h1 class="main-title">Set the <span>mood & words</span></h1>
+
+      <div class="maa-form-box">
+        <label class="input-label">LANGUAGE FOR HER CARD</label>
+        <div class="gender-grid" style="margin-bottom: 2rem;">
+           <div class="gender-card" style="flex-direction: column; text-align: center; gap: 0rem; padding: 1rem;" [class.active]="formData.language === 'English'" (click)="selectLanguage('English')">
+             <div style="font-weight: 500;">English</div>
+             <div style="font-size: 0.75rem; color: #a0a0a0;">English</div>
+           </div>
+           <div class="gender-card" style="flex-direction: column; text-align: center; gap: 0rem; padding: 1rem;" [class.active]="formData.language === 'Hindi'" (click)="selectLanguage('Hindi')">
+             <div style="font-weight: 500;">Hindi</div>
+             <div style="font-size: 0.75rem; color: #a0a0a0;">हिन्दी</div>
+           </div>
+           <div class="gender-card" style="flex-direction: column; text-align: center; gap: 0rem; padding: 1rem;" [class.active]="formData.language === 'Hinglish'" (click)="selectLanguage('Hinglish')">
+             <div style="font-weight: 500;">Hinglish</div>
+             <div style="font-size: 0.75rem; color: #a0a0a0;">Roman Hindi</div>
+           </div>
+        </div>
+
+        <label class="input-label">YOUR LETTER TO HER</label>
+        <textarea class="maa-input" style="min-height: 250px; font-family: inherit; font-size: 1.05rem; line-height: 1.6;" [(ngModel)]="formData.letter"></textarea>
+        <div style="text-align: right; font-size: 0.75rem; color: #999; margin-top: 0.5rem; margin-bottom: 2rem;">{{ formData.letter.length }} / 1200</div>
+
+        <label class="input-label">SHE IS...</label>
+        <div class="static-card" style="margin-bottom: 1.5rem;">
+          <div style="display: flex; align-items: center; gap: 0.5rem; font-size: 1rem;">
+            🏠 My world, my home
+          </div>
+          <div class="change-text">CHANGE</div>
+        </div>
+
+        <label class="input-label">MOMENTS YOU'LL NEVER FORGET</label>
+        <div class="static-card">
+          <ul class="bullet-list" style="flex: 1;">
+            <li>The way you always kept food warm for me, no matter how lat...</li>
+            <li>Teaching me to cook when I was 8, even though I spilled...</li>
+            <li>The sacrifices you made that you never once mentioned</li>
+          </ul>
+          <div class="change-text">CHANGE</div>
+        </div>
+
+      </div>
+      
+      <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+        <button class="btn btn-outline" style="border: none; color: #777; background: transparent; padding: 1rem;" (click)="prevStep()">← Back</button>
+        <button class="big-continue-btn" style="margin-top: 0; flex: 1;" (click)="nextStep()">Preview & unlock →</button>
+      </div>
+    </div>
+
+
+  </div>
+</section>

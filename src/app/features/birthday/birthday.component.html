@@ -1,0 +1,88 @@
+<section class="feature-hero fade-in-up">
+  <div class="feature-container">
+    <div class="feature-icon">🎂</div>
+    <h1 class="text-gradient feature-title">
+      {{ isViewMode ? (formData.bdayName ? 'Happy Birthday, ' + formData.bdayName + '!' : 'Happy Birthday!') : 'Virtual Birthday Bash' }}
+    </h1>
+    <p class="feature-desc">{{ isViewMode ? (formData.senderName ? formData.senderName + ' sent you a virtual birthday package.' : 'You have received a virtual birthday package.') : 'Send them a virtual party complete with balloons, a custom cake, and digital candles.' }}</p>
+
+    <!-- Creator Form -->
+    <div class="feature-form" *ngIf="!isViewMode">
+      <div class="form-group">
+        <label for="bdayName">Birthday Boy/Girl Name</label>
+        <input type="text" id="bdayName" class="form-control" placeholder="E.g. Alex" [(ngModel)]="formData.bdayName">
+      </div>
+      <div class="form-group">
+        <label for="senderName">Your Name (Sender)</label>
+        <input type="text" id="senderName" class="form-control" placeholder="E.g. Taylor" [(ngModel)]="formData.senderName">
+      </div>
+      <div class="form-group">
+        <label for="cakeFlav">Cake Flavor & Design</label>
+        <select id="cakeFlav" class="form-control" [(ngModel)]="formData.cakeFlav">
+          <option>Chocolate Truffle</option>
+          <option>Red Velvet</option>
+          <option>Vanilla Strawberry</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="wishes">Personal Birthday Letter</label>
+        <textarea id="wishes" class="form-control" placeholder="Wishing you the happiest birthday..." [(ngModel)]="formData.wishes"></textarea>
+      </div>
+      <div class="action-buttons">
+        <button class="btn btn-outline" (click)="togglePreview()">Preview</button>
+        <button class="btn btn-primary" (click)="generateLink()" [disabled]="isGenerating">
+          <span class="spinner" *ngIf="isGenerating"></span>
+          {{ isGenerating ? 'Crafting Magic...' : 'Brew Birthday Magic ✨' }}
+        </button>
+      </div>
+
+      <div class="result-box" *ngIf="generatedLink">
+        <h4>🎉 Your Magic Link is ready!</h4>
+        <div class="link-container">
+          <span class="link-text">{{ generatedLink }}</span>
+          <button class="copy-btn" [class.copied]="copied" (click)="copyLink()">
+            {{ copied ? 'Copied ✓' : 'Copy' }}
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Receiver View -->
+    <div class="feature-form text-center" *ngIf="isViewMode">
+      <div *ngIf="!candlesBlown">
+        <h3 class="feature-subtitle">Here's your {{ formData.cakeFlav || 'virtual' }} cake!</h3>
+        <div style="font-size: clamp(4rem, 15vw, 6rem); margin-bottom: 1rem; cursor: pointer;" (click)="blowCandles()">🎂</div>
+        <p style="color: var(--text-muted); margin-bottom: 2rem;">(Tap to blow out the candles)</p>
+      </div>
+      <div *ngIf="candlesBlown" class="result-box" style="margin-top: 1rem; background: rgba(251,146,60,0.1); border-color: #fb923c;">
+        <img src="https://media.giphy.com/media/3o6MbhgBx0MaN0nOr6/giphy.gif" alt="Happy Birthday" style="width: 100%; max-width: 300px; border-radius: 12px; margin-bottom: 1rem;">
+        <h4 style="font-size: clamp(1.2rem, 4vw, 1.5rem); margin-bottom: 1rem;">🎉 Wishing you the happiest birthday! 🎉</h4>
+        <p style="color: var(--text-light); text-align: left; font-style: italic; white-space: pre-wrap;">"{{ formData.wishes || 'May all your dreams come true this year...' }}"</p>
+      </div>
+      <div style="margin-top: 2rem; display: flex; flex-direction: column; align-items: center; gap: 1rem;">
+        
+        <div class="action-buttons" *ngIf="isPreviewMode" style="max-width: 400px; margin-top: 0;">
+          <button class="btn btn-outline" (click)="togglePreview()">Back to Editing</button>
+          <button class="btn btn-primary" (click)="generateLink()" [disabled]="isGenerating">
+            <span class="spinner" *ngIf="isGenerating"></span>
+            {{ isGenerating ? 'Crafting Magic...' : 'Brew Birthday Magic ✨' }}
+          </button>
+        </div>
+
+        <div class="result-box" *ngIf="generatedLink && isPreviewMode" style="width: 100%; max-width: 400px; margin-top: 0;">
+          <h4>🎉 Your Magic Link is ready!</h4>
+          <div class="link-container">
+            <span class="link-text">{{ generatedLink }}</span>
+            <button class="copy-btn" [class.copied]="copied" (click)="copyLink()">
+              {{ copied ? 'Copied ✓' : 'Copy' }}
+            </button>
+          </div>
+        </div>
+
+        <a *ngIf="!isPreviewMode" routerLink="/" style="color: var(--primary-light); font-size: 0.9rem; text-decoration: underline; display: flex; align-items: center;">Create your own HeartCraft</a>
+      </div>
+    </div>
+
+  </div>
+  <div class="hero-bg-glow" style="background: radial-gradient(circle, rgba(251,146,60,0.15) 0%, rgba(2,6,23,0) 70%);"></div>
+</section>

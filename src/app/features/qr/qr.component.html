@@ -1,0 +1,70 @@
+<section class="feature-hero fade-in-up">
+  <div class="feature-container">
+    <div class="feature-icon">📸</div>
+    <h1 class="text-gradient" style="font-size: 3rem; margin-bottom: 1rem;">
+      {{ isViewMode ? 'Pay John Doe' : 'UPI QR with Photo' }}
+    </h1>
+    <p class="feature-desc">{{ isViewMode ? 'Scan or click below to make a payment securely.' : 'Receive payments effortlessly by turning your UPI ID into an elegant customized QR card with your photo.' }}</p>
+
+    <!-- Creator Form -->
+    <div class="feature-form" *ngIf="!isViewMode">
+      <div class="form-group">
+        <label for="upiId">Your UPI ID</label>
+        <input type="text" id="upiId" class="form-control" placeholder="username&#64;upi">
+      </div>
+      <div class="form-group">
+        <label for="displayName">Display Name</label>
+        <input type="text" id="displayName" class="form-control" placeholder="John Doe">
+      </div>
+      <div class="form-group">
+        <label for="avatar">Upload Profile Photo</label>
+        <div style="padding: 2rem; border: 2px dashed var(--border-color); border-radius: 12px; text-align: center; cursor: pointer; color: var(--text-muted); margin-bottom: 1rem;">
+          📷 Select your photo
+        </div>
+      </div>
+      <div class="form-group" style="margin-top: 2rem;">
+        <button class="btn btn-primary" style="width: 100%;" (click)="generateLink()" [disabled]="isGenerating">
+          <span class="spinner" *ngIf="isGenerating"></span>
+          {{ isGenerating ? 'Crafting Magic...' : 'Generate Smart QR ✨' }}
+        </button>
+      </div>
+
+      <div class="result-box" *ngIf="generatedLink">
+        <h4>🎉 Your Magic Link is ready!</h4>
+        <div class="link-container">
+          <span class="link-text">{{ generatedLink }}</span>
+          <button class="copy-btn" [class.copied]="copied" (click)="copyLink()">
+            {{ copied ? 'Copied ✓' : 'Copy' }}
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Receiver View -->
+    <div class="feature-form text-center" *ngIf="isViewMode">
+      <div *ngIf="!paid">
+        <h3 style="font-size: 1.5rem; margin-bottom: 1rem;">Scan to Pay</h3>
+        <div style="background: white; padding: 1rem; border-radius: 12px; display: inline-block; margin-bottom: 1.5rem;">
+          <!-- Simulated QR Code Grid -->
+          <div style="display: grid; grid-template-columns: repeat(4, 30px); grid-template-rows: repeat(4, 30px); gap: 2px;">
+            <div style="background: black; grid-column: span 2; grid-row: span 2;"></div><div style="background: black;"></div><div style="background: transparent;"></div>
+            <div style="background: transparent;"></div><div style="background: black;"></div>
+            <div style="background: black;"></div><div style="background: transparent;"></div><div style="background: black; grid-column: span 2; grid-row: span 2;"></div>
+            <div style="background: transparent;"></div><div style="background: black;"></div>
+          </div>
+        </div>
+        <p style="color: var(--text-muted); margin-bottom: 1.5rem;">UPI ID: username&#64;upi</p>
+        <button class="btn btn-primary" (click)="simulatePayment()" style="font-size: 1.25rem;">Simulate Payment ✅</button>
+      </div>
+      <div *ngIf="paid" class="result-box" style="margin-top: 1rem; background: rgba(34,197,94,0.1); border-color: #22c55e;">
+        <h4 style="font-size: 1.5rem; margin-bottom: 1rem;">Payment Successful! 🎉</h4>
+        <p style="color: var(--text-light); font-size: 1.1rem;">Your test payment has been securely processed.</p>
+      </div>
+      <div style="margin-top: 2rem;">
+        <a routerLink="/" style="color: var(--primary-light); font-size: 0.9rem; text-decoration: underline;">Create your own HeartCraft</a>
+      </div>
+    </div>
+
+  </div>
+  <div class="hero-bg-glow" style="background: radial-gradient(circle, rgba(34,197,94,0.15) 0%, rgba(2,6,23,0) 70%);"></div>
+</section>

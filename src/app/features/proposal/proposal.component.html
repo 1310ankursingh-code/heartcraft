@@ -1,0 +1,89 @@
+<section class="feature-hero fade-in-up">
+  <div class="feature-container">
+    <div class="feature-icon">💍</div>
+    <h1 class="text-gradient feature-title">
+      {{ isViewMode ? (formData.partnerName ? formData.partnerName + ', I have a question...' : 'A magical question for you...') : 'The Perfect Proposal' }}
+    </h1>
+    <p class="feature-desc">{{ isViewMode ? (formData.senderName ? formData.senderName + ' sent you a surprise.' : 'Someone sent you a surprise.') : 'Design a customized, unrejectable love card that playfuly dodges the "No" button.' }}</p>
+
+    <!-- Creator Form -->
+    <div class="feature-form" *ngIf="!isViewMode">
+      <div class="form-group">
+        <label for="partnerName">Who are you proposing to?</label>
+        <input type="text" id="partnerName" class="form-control" placeholder="E.g. Sarah" [(ngModel)]="formData.partnerName">
+      </div>
+      <div class="form-group">
+        <label for="senderName">Your Name (Sender)</label>
+        <input type="text" id="senderName" class="form-control" placeholder="E.g. Alex" [(ngModel)]="formData.senderName">
+      </div>
+      <div class="form-group">
+        <label for="question">The Big Question</label>
+        <input type="text" id="question" class="form-control" placeholder="Will you marry me?" [(ngModel)]="formData.question">
+      </div>
+      <div class="form-group">
+        <label for="message">Your Heartfelt Message</label>
+        <textarea id="message" class="form-control" placeholder="I have something special to tell you..." [(ngModel)]="formData.message"></textarea>
+      </div>
+      <div class="action-buttons">
+        <button class="btn btn-outline" (click)="togglePreview()">Preview</button>
+        <button class="btn btn-primary" (click)="generateLink()" [disabled]="isGenerating">
+          <span class="spinner" *ngIf="isGenerating"></span>
+          {{ isGenerating ? 'Crafting Magic...' : 'Generate Magic Link ✨' }}
+        </button>
+      </div>
+
+      <div class="result-box" *ngIf="generatedLink">
+        <h4>🎉 Your Magic Link is ready!</h4>
+        <div class="link-container">
+          <span class="link-text">{{ generatedLink }}</span>
+          <button class="copy-btn" [class.copied]="copied" (click)="copyLink()">
+            {{ copied ? 'Copied ✓' : 'Copy' }}
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Receiver View -->
+    <div class="feature-form text-center" *ngIf="isViewMode">
+      <div *ngIf="formData.message && !saidYes" style="background: rgba(244,63,94,0.05); padding: 1.2rem; border-radius: 12px; margin-bottom: 1.5rem; text-align: left; position: relative; border-left: 3px solid var(--primary);">
+        <p style="font-size: 0.95rem; line-height: 1.4; color: var(--text-light); white-space: pre-wrap;">{{ formData.message }}</p>
+        <div style="text-align: right; margin-top: 0.5rem; font-size: 0.8rem; font-weight: 600; color: var(--primary);">— {{ formData.senderName || 'Anonymous' }}</div>
+      </div>
+      
+      <h3 class="feature-subtitle" style="margin-bottom: 1.5rem;">{{ formData.question || 'Will you marry me?' }}</h3>
+      <div class="action-buttons" *ngIf="!saidYes">
+        <button class="btn btn-primary" (click)="sayYes()">Yes! 💖</button>
+        <button class="btn btn-outline" style="transition: transform 0.2s;" (mouseover)="dodgeNo($event)" (click)="dodgeNo($event)">No</button>
+      </div>
+      <div *ngIf="saidYes" class="result-box" style="margin-top: 1rem; background: rgba(244,63,94,0.1); border-color: #f43f5e;">
+        <img src="https://media.giphy.com/media/xT0BKL21U5nnlW4m6k/giphy.gif" alt="Happy Hugs" style="width: 100%; max-width: 300px; border-radius: 12px; margin-bottom: 1rem;">
+        <h4 style="font-size: clamp(1.2rem, 4vw, 1.5rem); margin-bottom: 1rem;">🎉 YOU SAID YES! 🎉</h4>
+        <p style="color: var(--text-light); font-size: 1.1rem; margin-top: 1rem; white-space: pre-wrap;">{{ formData.message || 'I promise to love you forever and ever...' }}</p>
+      </div>
+      <div style="margin-top: 2rem; display: flex; flex-direction: column; align-items: center; gap: 1rem;">
+        
+        <div class="action-buttons" *ngIf="isPreviewMode" style="max-width: 400px; margin-top: 0;">
+          <button class="btn btn-outline" (click)="togglePreview()">Back to Editing</button>
+          <button class="btn btn-primary" (click)="generateLink()" [disabled]="isGenerating">
+            <span class="spinner" *ngIf="isGenerating"></span>
+            {{ isGenerating ? 'Crafting Magic...' : 'Generate Magic Link ✨' }}
+          </button>
+        </div>
+
+        <div class="result-box" *ngIf="generatedLink && isPreviewMode" style="width: 100%; max-width: 400px; margin-top: 0;">
+          <h4>🎉 Your Magic Link is ready!</h4>
+          <div class="link-container">
+            <span class="link-text">{{ generatedLink }}</span>
+            <button class="copy-btn" [class.copied]="copied" (click)="copyLink()">
+              {{ copied ? 'Copied ✓' : 'Copy' }}
+            </button>
+          </div>
+        </div>
+
+        <a *ngIf="!isPreviewMode" routerLink="/" style="color: var(--primary-light); font-size: 0.9rem; text-decoration: underline; display: flex; align-items: center;">Create your own HeartCraft</a>
+      </div>
+    </div>
+
+  </div>
+  <div class="hero-bg-glow" style="background: radial-gradient(circle, rgba(168,85,247,0.15) 0%, rgba(2,6,23,0) 70%);"></div>
+</section>

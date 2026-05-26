@@ -1,0 +1,125 @@
+<section class="anni-hero">
+  <div class="stars"></div>
+  
+  <div class="anni-container">
+    
+    <!-- Step 1 -->
+    <div class="anni-box" *ngIf="step === 1 && !isViewMode">
+      <label class="input-label">Whose anniversary is it?</label>
+      <input type="text" class="anni-input" placeholder="Your partner's name" [(ngModel)]="formData.partnerName" (input)="updateLetter()">
+
+      <label class="input-label">When is the anniversary? 💕</label>
+      <div style="display: flex; gap: 1rem;">
+        <select class="anni-select" [(ngModel)]="formData.month" (change)="updateLetter()" style="flex: 2;">
+          <option *ngFor="let m of months" [value]="m">{{m}}</option>
+        </select>
+        <select class="anni-select" [(ngModel)]="formData.day" (change)="updateLetter()" style="flex: 1;">
+          <option *ngFor="let d of days" [value]="d">{{d}}</option>
+        </select>
+      </div>
+
+      <label class="input-label" style="text-align: center;">Which anniversary is this? 🎉</label>
+      <select class="anni-select" [(ngModel)]="formData.type">
+         <option *ngFor="let a of anniversaries" [value]="a">{{a}}</option>
+      </select>
+
+      <button class="btn-continue" (click)="nextStep1()">Next</button>
+    </div>
+
+    <!-- Step 2 -->
+    <div class="anni-box" *ngIf="step === 2 && !isViewMode" style="padding-top: 2rem;">
+      <h1 class="step2-title">Customize for {{formData.partnerName || 'my love'}}</h1>
+      <p class="step2-subtitle">Tap change to write your own</p>
+
+      <div class="summary-row" style="flex-direction: column;" *ngIf="editingLetter">
+        <div style="display:flex; justify-content:space-between; width:100%;">
+          <span class="summary-label">Letter</span>
+          <button class="change-btn" (click)="editingLetter = false">Done</button>
+        </div>
+        <textarea class="edit-textarea" [(ngModel)]="formData.letter"></textarea>
+      </div>
+      <div class="summary-row" *ngIf="!editingLetter">
+        <span class="summary-label">Letter</span>
+        <span class="summary-value">{{ formData.letter.substring(0, 30) }}...</span>
+        <button class="change-btn" (click)="editingLetter = true">Change</button>
+      </div>
+
+      <div class="summary-row" style="flex-direction: column;" *ngIf="editingPromises">
+        <div style="display:flex; justify-content:space-between; width:100%;">
+          <span class="summary-label">Promises</span>
+          <button class="change-btn" (click)="editingPromises = false">Done</button>
+        </div>
+        <textarea class="edit-textarea" [(ngModel)]="formData.promises"></textarea>
+      </div>
+      <div class="summary-row" *ngIf="!editingPromises">
+        <span class="summary-label">Promises</span>
+        <span class="summary-value">{{ formData.promises.substring(0, 30) }}...</span>
+        <button class="change-btn" (click)="editingPromises = true">Change</button>
+      </div>
+
+      <div class="toggle-row">
+        <div class="toggle-icon">🖼️</div>
+        <div class="toggle-text">
+          <div class="toggle-title">Add Photo</div>
+          <div style="font-weight:600; color:#4a4a4a; font-size:0.9rem; margin-top:0.2rem;">Add your favorite photo together</div>
+          <div class="toggle-desc">Optional · We'll place it beautifully inside your anniversary surprise</div>
+        </div>
+        <label class="switch">
+          <input type="checkbox" [(ngModel)]="formData.addPhoto">
+          <span class="slider"></span>
+        </label>
+      </div>
+
+      <div style="display:flex; gap:1rem; margin-top:2rem;">
+        <button class="btn-continue" style="background: transparent; color: #a19097; border: 1px solid #dcd0d4;" (click)="backStep()">Back</button>
+        <button class="btn-primary-gradient" style="margin-top:0;" (click)="nextStep2()">See Preview</button>
+      </div>
+    </div>
+
+    <!-- Step 3 / Receiver View -->
+    <div *ngIf="step === 3 || isViewMode">
+      <h1 class="preview-title" *ngIf="!isViewMode">Preview</h1>
+      <p class="preview-subtitle" *ngIf="!isViewMode">This is how it will look</p>
+
+      <div class="phone-frame">
+        <div class="notch"></div>
+        <div class="phone-inner">
+          <div class="letter-title">A Letter From My Heart</div>
+          <div class="letter-box">
+            <div class="heart-pin">♥</div>
+            <div class="letter-content">{{ formData.letter }}</div>
+          </div>
+          
+          <div class="letter-box" style="margin-top: 1.5rem;" *ngIf="formData.addPhoto">
+             <div class="heart-pin" style="background: radial-gradient(circle at 30% 30%, #f4c05e, #df9b21); box-shadow: 0 4px 10px rgba(223, 155, 33, 0.4);">📸</div>
+             <img src="https://images.unsplash.com/photo-1518199266791-5375a83190b7?auto=format&fit=crop&q=80&w=400" style="width: 100%; border-radius: 8px;">
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="!isViewMode" style="margin-top: 2rem; display: flex; flex-direction: column; align-items: center; gap: 1rem;">
+        <div style="display:flex; gap:1rem; width:100%; max-width:400px;">
+          <button class="btn-continue" style="background: transparent; color: #a19097; border: 1px solid #734656;" (click)="backStep()">Edit</button>
+          <button class="btn-primary-gradient" style="margin-top:0; flex:2;" (click)="generateLink()" [disabled]="isGenerating">
+            <span class="spinner" *ngIf="isGenerating" style="border-top-color: white;"></span>
+            {{ isGenerating ? 'Crafting Magic...' : 'Generate Magic Link ✨' }}
+          </button>
+        </div>
+
+        <div *ngIf="generatedLink" style="width: 100%; max-width: 400px; background: rgba(255,255,255,0.1); backdrop-filter: blur(10px); border-radius: 12px; padding: 1.5rem; text-align: center; border: 1px solid rgba(255,255,255,0.1);">
+          <h4 style="margin-bottom: 1rem;">🎉 Your Magic Link is ready!</h4>
+          <div style="display: flex; gap: 0.5rem; justify-content: center; align-items: center; background: rgba(0,0,0,0.3); padding: 0.8rem; border-radius: 8px;">
+            <span style="font-family: monospace; color: #df6e9b; word-break: break-all;">{{ generatedLink }}</span>
+            <button style="background: #df6e9b; color: white; padding: 0.4rem 0.8rem; border-radius: 6px; font-size: 0.8rem; border: none; cursor: pointer;" (click)="copyLink()">{{ copied ? 'Copied ✓' : 'Copy' }}</button>
+          </div>
+        </div>
+        <a routerLink="/" style="color: #df6e9b; font-size: 0.9rem; text-decoration: underline;">Create your own HeartCraft</a>
+      </div>
+
+       <div *ngIf="isViewMode" style="margin-top: 2rem; text-align: center;">
+         <a routerLink="/" style="color: #df6e9b; font-size: 0.9rem; text-decoration: underline;">Create your own HeartCraft</a>
+       </div>
+
+    </div>
+  </div>
+</section>
