@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "myheartcraft-angular": {
+    "heartwoven-angular": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -13,7 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/myheartcraft-angular",
+            "outputPath": "dist/heartwoven-angular",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
@@ -61,10 +61,10 @@
           },
           "configurations": {
             "production": {
-              "buildTarget": "myheartcraft-angular:build:production"
+              "buildTarget": "heartwoven-angular:build:production"
             },
             "development": {
-              "buildTarget": "myheartcraft-angular:build:development"
+              "buildTarget": "heartwoven-angular:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -72,7 +72,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "buildTarget": "myheartcraft-angular:build"
+            "buildTarget": "heartwoven-angular:build"
           }
         },
         "test": {

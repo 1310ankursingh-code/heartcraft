@@ -10,5 +10,5 @@ import { RouterOutlet, RouterLink } from '@angular/router';
   styleUrl: './app.component.css'
 })
 export class AppComponent {
-  title = 'HeartCraft';
+  title = 'HeartWoven';
 }
