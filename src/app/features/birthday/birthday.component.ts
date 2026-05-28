@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 
+declare var Razorpay: any;
+
 @Component({
   selector: 'app-birthday',
   standalone: true,
@@ -44,6 +46,44 @@ export class BirthdayComponent implements OnInit {
   generateLink() {
     this.isGenerating = true;
     this.copied = false;
+
+    const options = {
+      key: 'rzp_test_SukelXe2qUALbN',
+      amount: 1900, // 19 INR
+      currency: 'INR',
+      name: 'HeartWoven',
+      description: 'Unlock your Birthday Bash Link',
+      image: 'assets/logo.png',
+      handler: (response: any) => {
+        if (response.razorpay_payment_id) {
+          this.finalizeLink();
+        } else {
+          this.isGenerating = false;
+        }
+      },
+      modal: {
+        ondismiss: () => {
+          this.isGenerating = false;
+        }
+      },
+      prefill: {
+        name: this.formData.senderName || 'User',
+      },
+      theme: {
+        color: '#fb923c'
+      }
+    };
+    
+    try {
+      const rzp = new Razorpay(options);
+      rzp.open();
+    } catch (e) {
+      this.isGenerating = false;
+      alert("Payment gateway unavailable.");
+    }
+  }
+
+  finalizeLink() {
     setTimeout(() => {
       const dataStr = JSON.stringify(this.formData);
       const encrypted = btoa(encodeURIComponent(dataStr));
