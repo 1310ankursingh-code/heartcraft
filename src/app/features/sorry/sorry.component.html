@@ -28,7 +28,7 @@
         <button class="btn btn-outline" (click)="togglePreview()">Preview</button>
         <button class="btn btn-primary" (click)="generateLink()" [disabled]="isGenerating">
           <span class="spinner" *ngIf="isGenerating"></span>
-          {{ isGenerating ? 'Crafting Magic...' : 'Create Apology Card ✨' }}
+          {{ isGenerating ? 'Crafting Magic...' : 'Generate Link ✨' }}
         </button>
       </div>
 
@@ -65,7 +65,7 @@
           <button class="btn btn-outline" (click)="togglePreview()">Back to Editing</button>
           <button class="btn btn-primary" (click)="generateLink()" [disabled]="isGenerating">
             <span class="spinner" *ngIf="isGenerating"></span>
-            {{ isGenerating ? 'Crafting Magic...' : 'Create Apology Card ✨' }}
+            {{ isGenerating ? 'Crafting Magic...' : 'Generate Link ✨' }}
           </button>
         </div>
 
