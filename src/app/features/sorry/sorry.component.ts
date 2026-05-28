@@ -64,6 +64,7 @@ export class SorryComponent implements OnInit {
       modal: {
         ondismiss: () => {
           this.isGenerating = false;
+          alert("Payment cancelled. Link not generated.");
         }
       },
       prefill: {

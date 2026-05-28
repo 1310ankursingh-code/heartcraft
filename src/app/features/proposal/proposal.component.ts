@@ -64,6 +64,7 @@ export class ProposalComponent implements OnInit {
       modal: {
         ondismiss: () => {
           this.isGenerating = false;
+          alert("Link generation cancelled because payment was not completed.");
         }
       },
       prefill: {

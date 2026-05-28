@@ -98,6 +98,7 @@ export class AnniversaryComponent implements OnInit {
       modal: {
         ondismiss: () => {
           this.isGenerating = false;
+          alert("Payment cancelled. Link not generated.");
         }
       },
       theme: {
